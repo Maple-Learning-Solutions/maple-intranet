@@ -39,20 +39,36 @@ class Scorm12Adapter:
         elif lesson_status == "not attempted":
             event_type = "initialized"
             
-        progress_pct = 100 if event_type in ["completed", "passed"] else 0
+        progress_pct = 100 if event_type in ["completed", "passed"] else None
         
         score_raw = cmi_data.get("cmi.core.score.raw")
         try:
-            score_float = float(score_raw) if score_raw and score_raw.strip() else None
+            score_float = float(score_raw) if score_raw and str(score_raw).strip() else None
         except ValueError:
             score_float = None
-            
-        if progress_pct == 0 and score_float is not None:
-            progress_pct = int(min(100, max(0, score_float)))
             
         total_time_str = cmi_data.get("cmi.core.total_time", "")
         duration_sec = int(Scorm12Adapter._parse_time(total_time_str)) if total_time_str else 0
             
+        # Extract interactions
+        interactions = {}
+        for key, value in cmi_data.items():
+            if key.startswith("cmi.interactions."):
+                parts = key.split(".")
+                if len(parts) >= 4:
+                    try:
+                        idx = int(parts[2])
+                        prop = ".".join(parts[3:])
+                        if idx not in interactions:
+                            interactions[idx] = {}
+                        interactions[idx][prop] = value
+                    except ValueError:
+                        pass
+                        
+        metadata = {}
+        if interactions:
+            metadata["interactions"] = [interactions[i] for i in sorted(interactions.keys())]
+
         return LearningEvent(
             user_id=attempt.user_id,
             course_id=attempt.course_id,
@@ -68,7 +84,8 @@ class Scorm12Adapter:
             location=cmi_data.get("cmi.core.lesson_location"),
             timestamp=datetime.now(timezone.utc),
             source_standard="SCORM_1_2",
-            source_event_id=str(uuid.uuid4())
+            source_event_id=str(uuid.uuid4()),
+            metadata=metadata
         )
 
     @staticmethod

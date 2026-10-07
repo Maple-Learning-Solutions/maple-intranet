@@ -28,6 +28,7 @@ async def upload_learning_package(
 
     temp_fd, temp_path = tempfile.mkstemp(suffix=".zip")
     try:
+        await file.seek(0)
         with os.fdopen(temp_fd, "wb") as temp_file:
             shutil.copyfileobj(file.file, temp_file)
         
@@ -98,12 +99,13 @@ async def upload_learning_package(
         
         return {"id": package.id, "title": package.title, "standard": package.standard, "entry_point_url": package.entry_point_url}
 
+    except HTTPException:
+        raise
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail="Internal server error during extraction/upload.")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {repr(e)}")
     finally:
         if os.path.exists(temp_path):
             os.remove(temp_path)

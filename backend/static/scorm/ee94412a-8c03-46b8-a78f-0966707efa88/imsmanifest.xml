@@ -1,0 +1,258 @@
+<?xml version="1.0" standalone="no" ?>
+<manifest
+  identifier="uffH6_Mu4u4rVeGe-VLDQnkph2MuJRJDRBASr3Cc"
+  version="1.3"
+  xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
+  xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3"
+  xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3"
+  xmlns:imsss="http://www.imsglobal.org/xsd/imsss"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd
+                      http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd
+                      http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd
+                      http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd
+                      http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd"
+>
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>2004 3rd Edition</schemaversion>
+    <adlcp:location>metadata.xml</adlcp:location>
+  </metadata>
+  <organizations default="B0">
+    <organization identifier="B0" adlseq:objectivesGlobalToSystem="false">
+      <title>How to Protect Yourself Against Phishing Attacks</title>
+      <item identifier="i1" identifierref="r1" isvisible="true">
+        <title>How to Protect Yourself Against Phishing Attacks</title>
+        <adlcp:dataFromLMS>dataFromLMS</adlcp:dataFromLMS>
+        
+        <imsss:sequencing>
+          <imsss:deliveryControls tracked="true" completionSetByContent="true" objectiveSetByContent="true" />
+        </imsss:sequencing>
+      </item>
+      <metadata>
+        <adlcp:location>metadata.xml</adlcp:location>
+      </metadata>
+      <imsss:sequencing>
+        <imsss:controlMode choice="true" flow="true" />
+      </imsss:sequencing>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="r1" type="webcontent" adlcp:scormType="sco" href="scormdriver/indexAPI.html">
+      
+        <file href="scormcontent/lib/rise/51194391.js" />
+      
+        <file href="scormcontent/lib/rise/b5c246db.css" />
+      
+        <file href="scormcontent/lib/sandbox/sandbox.html" />
+      
+        <file href="scormcontent/lib/sandbox/c77685df.js" />
+      
+        <file href="scormcontent/lib/sandbox/4adfab46.css" />
+      
+        <file href="scormcontent/lib/ai-scenario/entry.js" />
+      
+        <file href="scormcontent/lib/ai-scenario/57960b97.js" />
+      
+        <file href="scormcontent/lib/ai-scenario/841684f2.js" />
+      
+        <file href="scormcontent/lib/ai-scenario/6237cfa3.js" />
+      
+        <file href="scormcontent/lib/ai-scenario/312c66b0.js" />
+      
+        <file href="scormcontent/lib/ai-scenario/5e51779a.js" />
+      
+        <file href="scormcontent/lib/ai-scenario/722e48c4.js" />
+      
+        <file href="scormcontent/lib/rise/f453a255.js" />
+      
+        <file href="scormcontent/lib/ai-scenario/b63a3844.js" />
+      
+        <file href="scormcontent/lib/rise/b60366f5.css" />
+      
+        <file href="scormcontent/lib/learn_dist/entry.js" />
+      
+        <file href="scormcontent/lib/learn_dist/9b1f8619.js" />
+      
+        <file href="scormcontent/lib/learn_dist/cd7714c6.css" />
+      
+        <file href="scormcontent/lib/rise/c1711788.js" />
+      
+        <file href="scormcontent/lib/learn_dist/2134587e.js" />
+      
+        <file href="scormcontent/lib/rise/9aede266.ttf" />
+      
+        <file href="scormcontent/lib/rise/bff47411.woff" />
+      
+        <file href="scormcontent/lib/rise/130fc72f.js" />
+      
+        <file href="scormcontent/lib/rise/5c95b03c.js" />
+      
+        <file href="scormcontent/lib/rise/d227abed.js" />
+      
+        <file href="scormcontent/lib/rise/4de7a64b.js" />
+      
+        <file href="scormcontent/lib/rise/4fda90c0.js" />
+      
+        <file href="scormcontent/lib/rise/e75447a1.js" />
+      
+        <file href="scormcontent/lib/rise/01697df2.js" />
+      
+        <file href="scormcontent/lib/rise/299f5ddb.js" />
+      
+        <file href="scormcontent/lib/rise/d34193a1.js" />
+      
+        <file href="scormcontent/lib/rise/f10a9e96.js" />
+      
+        <file href="scormcontent/lib/rise/b2fa32e8.js" />
+      
+        <file href="scormcontent/lib/rise/674a2edc.js" />
+      
+        <file href="scormcontent/lib/rise/61bd4112.js" />
+      
+        <file href="scormcontent/lib/rise/52234862.js" />
+      
+        <file href="scormcontent/lib/rise/b296c88a.js" />
+      
+        <file href="scormcontent/lib/rise/39f25c26.js" />
+      
+        <file href="scormcontent/lib/mondrian/entry.js" />
+      
+        <file href="scormcontent/lib/mondrian/566d9284.js" />
+      
+        <file href="scormcontent/lib/mondrian/0c7abd00.js" />
+      
+        <file href="scormcontent/lib/mondrian/1d992b49.js" />
+      
+        <file href="scormcontent/lib/mondrian/3868877e.js" />
+      
+        <file href="scormcontent/lib/mondrian/5d56aa22.js" />
+      
+        <file href="scormdriver/driverOptions.js" />
+      
+        <file href="scormdriver/indexAPI.html" />
+      
+        <file href="scormdriver/goodbye.html" />
+      
+        <file href="scormcontent/index.html" />
+      
+        <file href="scormdriver/lib/dist/5306ddc2.js" />
+      
+        <file href="scormcontent/lib/dist/ceac0120.js" />
+      
+        <file href="scormcontent/assets/quote_background.jpg" />
+      
+        <file href="scormcontent/assets/hotel.jpg" />
+      
+        <file href="scormdriver/scormdriver.js" />
+      
+        <file href="scormcontent/assets/phishingimg.jpg" />
+      
+        <file href="scormdriver/lms-interface.js" />
+      
+        <file href="scormdriver/browsersniff.js" />
+      
+        <file href="scormcontent/assets/Screenshot 2026-08-27 1437.jpg" />
+      
+        <file href="scormcontent/assets/Screenshot 2026-08-27 1556.jpg" />
+      
+        <file href="scormdriver/blank.html" />
+      
+        <file href="scormcontent/assets/Screenshot 2026-08-27 1443.jpg" />
+      
+        <file href="scormcontent/assets/paraglide.jpg" />
+      
+        <file href="scormcontent/assets/mountains.jpg" />
+      
+        <file href="scormdriver/auto-scripts/CourseExit.js" />
+      
+        <file href="scormcontent/assets/Create-a-highly-realistic,.jpg" />
+      
+        <file href="scormcontent/assets/ai-captions-1787829676414.vtt" />
+      
+        <file href="scormcontent/assets/quote.jpg" />
+      
+        <file href="scormcontent/assets/ai-captions-1787830206816.vtt" />
+      
+        <file href="scormcontent/assets/4639_full.png" />
+      
+        <file href="scormcontent/lib/fonts/Lato2-Light.woff" />
+      
+        <file href="scormcontent/assets/ai-captions-1787830572647.vtt" />
+      
+        <file href="scormcontent/assets/transcoded--lwojfhAlov87Q4.mp3" />
+      
+        <file href="scormdriver/auto-scripts/AutoBookmark.js" />
+      
+        <file href="scormcontent/assets/ai-captions-1787831940769.vtt" />
+      
+        <file href="scormcontent/assets/4590_full.png" />
+      
+        <file href="scormdriver/auto-scripts/AutoCompleteSCO.js" />
+      
+        <file href="scormcontent/assets/phoneimg.jpg" />
+      
+        <file href="scormcontent/lib/fonts/Merriweather-Black.woff" />
+      
+        <file href="scormcontent/assets/4582_full.png" />
+      
+        <file href="scormcontent/assets/4686_full.png" />
+      
+        <file href="scormcontent/assets/What is vishing_ Tips to s.mp4" />
+      
+        <file href="scormcontent/assets/What is Malware_ Types and.mp4" />
+      
+        <file href="scormdriver/AICCComm.html" />
+      
+        <file href="scormcontent/assets/What is Phishing_ Phishing.mp4" />
+      
+        <file href="scormcontent/assets/4650_full.png" />
+      
+        <file href="scormcontent/lib/fonts/Lato2-Bold.woff" />
+      
+        <file href="scormcontent/lib/fonts/Lato2-Regular.woff" />
+      
+        <file href="scormcontent/lib/fonts/Lato2-Black.woff" />
+      
+        <file href="scormcontent/assets/4662_full.png" />
+      
+        <file href="scormcontent/assets/Screenshot 2026-08-27 1522.jpg" />
+      
+        <file href="scormcontent/assets/4618_full.png" />
+      
+        <file href="scormcontent/assets/4613_full.png" />
+      
+        <file href="scormcontent/lib/fonts/Lato2-Italic.woff" />
+      
+        <file href="scormcontent/lib/fonts/Merriweather-Italic.woff" />
+      
+        <file href="scormcontent/assets/4617_full.png" />
+      
+        <file href="scormcontent/lib/fonts/Merriweather-Regular.woff" />
+      
+        <file href="scormcontent/assets/4597_full.png" />
+      
+        <file href="scormcontent/assets/4663_full.png" />
+      
+        <file href="scormcontent/lib/fonts/Merriweather-Bold.woff" />
+      
+        <file href="scormcontent/lib/fonts/Merriweather-Light.woff" />
+      
+        <file href="scormcontent/assets/4620_full.png" />
+      
+        <file href="scormcontent/assets/What are Business Email Co.mp4" />
+      
+        <file href="scormcontent/assets/What is vishing_ Tips to s.jpg" />
+      
+        <file href="scormcontent/assets/What are Business Email Co.jpg" />
+      
+        <file href="scormcontent/assets/What is Phishing_ Phishing.jpg" />
+      
+        <file href="scormcontent/assets/What is Malware_ Types and.jpg" />
+      
+        <file href="scormcontent/runtime-data.js" />
+      
+    </resource>
+  </resources>
+</manifest>

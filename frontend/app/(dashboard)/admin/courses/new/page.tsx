@@ -12,6 +12,9 @@ export default function NewCoursePage() {
   const token = session?.accessToken;
   const userId = session?.user?.id;
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [scormPackageId, setScormPackageId] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
   const [courseType, setCourseType] = useState<"NATIVE" | "SCORM">("NATIVE");
   const [scormFile, setScormFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
@@ -25,43 +28,68 @@ export default function NewCoursePage() {
       const file = e.target.files[0];
       if (file.name.endsWith('.zip')) {
         setScormFile(file);
+        setScormPackageId(null);
+        setUploadProgress(0);
       } else {
         alert("Please select a valid .zip SCORM package");
       }
     }
   };
 
+  const handleUploadPackage = () => {
+    if (!scormFile) return;
+    setIsUploading(true);
+    setUploadProgress(0);
+
+    const scormData = new FormData();
+    scormData.append("title", (formData.title || scormFile.name) + " SCORM");
+    scormData.append("file", scormFile);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/learning-packages/upload`);
+    
+    if (token) {
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    }
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percentComplete = Math.round((event.loaded / event.total) * 100);
+        setUploadProgress(percentComplete);
+      }
+    };
+
+    xhr.onload = () => {
+      setIsUploading(false);
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const response = JSON.parse(xhr.responseText);
+        setScormPackageId(response.id);
+      } else {
+        let errorMsg = "Failed to upload package.";
+        try {
+          const errData = JSON.parse(xhr.responseText);
+          if (errData.detail) errorMsg = errData.detail;
+        } catch(e) {}
+        alert(errorMsg);
+      }
+    };
+
+    xhr.onerror = () => {
+      setIsUploading(false);
+      alert("Network error while uploading package.");
+    };
+
+    xhr.send(scormData);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsUploading(true);
+    setIsSaving(true);
 
     try {
       const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
-      
-      let scorm_package_id = null;
 
-      // 1. Upload SCORM Package if provided
-      if (courseType === "SCORM" && scormFile) {
-        const scormData = new FormData();
-        scormData.append("title", formData.title + " SCORM");
-        scormData.append("file", scormFile);
-
-        const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/learning-packages/upload`, {
-          method: "POST",
-          headers, // Include the auth headers
-          body: scormData,
-        });
-
-        if (!uploadRes.ok) {
-          const errData = await uploadRes.json();
-          throw new Error(errData.detail || "Failed to upload SCORM package");
-        }
-
-        const packageData = await uploadRes.json();
-        scorm_package_id = packageData.id;
-      }
-
-      // 2. Create Course Record
+      // Create Course Record
       const courseRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/learning/courses`, {
         method: "POST",
         headers: {
@@ -72,7 +100,7 @@ export default function NewCoursePage() {
           title: formData.title,
           description: formData.description,
           category_id: formData.category_id,
-          learning_package_id: scorm_package_id,
+          learning_package_id: scormPackageId,
           course_type: courseType
         }),
       });
@@ -92,9 +120,11 @@ export default function NewCoursePage() {
       console.error(error);
       alert(`Error saving course: ${error.message}`);
     } finally {
-      setIsUploading(false);
+      setIsSaving(false);
     }
   };
+
+  const isSubmitDisabled = isSaving || isUploading || !formData.title || (courseType === "SCORM" && !scormPackageId);
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 pb-12">
@@ -205,20 +235,49 @@ export default function NewCoursePage() {
                     <Upload className="h-6 w-6" />
                   </div>
                   <div>
-                    <span className="font-semibold text-brand-teal-deep hover:text-brand-green transition-colors">Click to upload</span>
+                    <span className="font-semibold text-brand-teal-deep hover:text-brand-green transition-colors">Click to select file</span>
                     <span className="text-slate-500 ml-1">or drag and drop</span>
                   </div>
-                  <p className="text-xs text-slate-400">SCORM 1.2 .zip (Max 100MB)</p>
+                  <p className="text-xs text-slate-400">SCORM 1.2 .zip (Max 500MB)</p>
                 </label>
                 
                 {scormFile && (
-                  <div className="mt-6 flex items-center gap-3 p-3 bg-brand-teal/5 border border-brand-teal/20 rounded-lg text-left">
-                    <FileText className="h-5 w-5 text-brand-teal" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-brand-teal-deep truncate">{scormFile.name}</p>
-                      <p className="text-xs text-slate-500">{(scormFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                  <div className="mt-6 space-y-4">
+                    <div className="flex items-center gap-3 p-3 bg-brand-teal/5 border border-brand-teal/20 rounded-lg text-left">
+                      <FileText className="h-5 w-5 text-brand-teal" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-brand-teal-deep truncate">{scormFile.name}</p>
+                        <p className="text-xs text-slate-500">{(scormFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                      </div>
+                      {scormPackageId && <CheckCircle2 className="h-5 w-5 text-brand-green" />}
                     </div>
-                    <CheckCircle2 className="h-5 w-5 text-brand-green" />
+
+                    {!scormPackageId && (
+                      <div className="flex flex-col items-center gap-3">
+                        {isUploading ? (
+                          <div className="w-full space-y-2">
+                            <div className="flex justify-between text-sm text-slate-600 font-medium">
+                              <span>Uploading...</span>
+                              <span>{uploadProgress}%</span>
+                            </div>
+                            <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-brand-teal transition-all duration-300"
+                                style={{ width: `${uploadProgress}%` }}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={handleUploadPackage}
+                            className="px-4 py-2 bg-brand-teal text-white rounded-lg text-sm font-medium hover:bg-brand-teal-deep transition-colors"
+                          >
+                            Upload Package Now
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -240,13 +299,13 @@ export default function NewCoursePage() {
             </button>
             <button 
               type="submit" 
-              disabled={isUploading || !formData.title || (courseType === "SCORM" && !scormFile)}
+              disabled={isSubmitDisabled}
               className="px-6 py-2 rounded-lg text-sm font-medium bg-brand-teal-deep text-white hover:bg-brand-teal shadow-md disabled:opacity-50 transition-all flex items-center gap-2"
             >
-              {isUploading ? (
+              {isSaving ? (
                 <>
                   <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Processing...
+                  Saving...
                 </>
               ) : (
                 courseType === "NATIVE" ? 'Create Native Course' : 'Save & Publish'

@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-MAX_UPLOAD_SIZE = 100 * 1024 * 1024  # 100MB
+MAX_UPLOAD_SIZE = 500 * 1024 * 1024  # 500MB
 
 def is_safe_path(base, target):
     base = Path(base).resolve()

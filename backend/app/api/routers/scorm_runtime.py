@@ -56,8 +56,8 @@ async def initialize_session(req: InitRequest, db: AsyncSession = Depends(get_db
             course_id=course_id,
             package_id=req.package_id,
             attempt_number=1,
-            standard=package.package_type,
-            status="incomplete" if package.package_type == "scorm_1_2" else "unknown"
+            standard=package.standard.lower(),
+            status="incomplete" if package.standard.lower() in ["scorm_1_2", "scorm_2004"] else "unknown"
         )
         db.add(attempt)
         await db.commit()
@@ -129,7 +129,27 @@ async def commit_data(req: CommitRequest, db: AsyncSession = Depends(get_db)):
     if not attempt:
         return {"error": "201"} # Not found
 
-    # Create an Inbox event for async processing
+    # Synchronously update ScormRuntimeState so the player can immediately resume correctly
+    state_res = await db.execute(select(ScormRuntimeState).where(ScormRuntimeState.attempt_id == attempt.id))
+    state = state_res.scalars().first()
+    merged_data = req.cmi_data
+    
+    if state:
+        current_data = state.cmi_data or {}
+        # We must reassign to trigger SQLAlchemy JSON detection or use flag_modified
+        merged_data = {**current_data, **req.cmi_data}
+        state.cmi_data = merged_data
+        
+        # Also map explicit columns if needed
+        if attempt.standard == "scorm_1_2":
+            cols = Scorm12Adapter.extract_state_columns(merged_data)
+        else:
+            cols = Scorm2004Adapter.extract_state_columns(merged_data)
+            
+        for k, v in cols.items():
+            if v is not None or k in req.cmi_data:
+                setattr(state, k, v)
+                
     import uuid
     from app.models.learning import TrackingEventInbox
     
@@ -142,7 +162,7 @@ async def commit_data(req: CommitRequest, db: AsyncSession = Depends(get_db)):
         attempt_id=attempt.id,
         source=attempt.standard.upper() if attempt.standard else "SYSTEM",
         event_type="COMMIT",
-        payload=req.cmi_data,
+        payload=merged_data,
         status="received"
     )
     db.add(inbox_event)
@@ -156,19 +176,9 @@ async def commit_data(req: CommitRequest, db: AsyncSession = Depends(get_db)):
 
 @router.post("/finish")
 async def finish_session(req: CommitRequest, db: AsyncSession = Depends(get_db)):
-    # Commit any final data first
+    # Commit any final data first. This enqueues a celery task which will 
+    # update the attempt's last_activity_at and other progress metrics asynchronously.
     await commit_data(req, db)
-    
-    # Mark attempt as completed if appropriate
-    attempt_res = await db.execute(select(LearningAttempt).where(LearningAttempt.id == req.attempt_id))
-    attempt = attempt_res.scalars().first()
-    
-    if attempt:
-        import datetime
-        # If we didn't already set a completed status, and they triggered finish, we might mark time
-        attempt.last_activity_at = datetime.datetime.utcnow()
-        await db.commit()
-        
     return {"error": "0"}
 
 @router.get("/attempts/{attempt_id}/runtime-state")

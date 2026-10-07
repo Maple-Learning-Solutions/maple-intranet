@@ -1,0 +1,31 @@
+import zipfile
+
+manifest_content = b'''<?xml version="1.0" standalone="no" ?>
+<manifest identifier="com.scorm.test" version="1"
+          xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>2004 3rd Edition</schemaversion>
+  </metadata>
+  <organizations default="org_1">
+    <organization identifier="org_1">
+      <title>Test Course</title>
+      <item identifier="item_1" identifierref="res_1">
+        <title>Test Item</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="res_1" type="webcontent" adlcp:scormType="sco" href="index.html">
+      <file href="index.html"/>
+    </resource>
+  </resources>
+</manifest>'''
+
+html_content = b'<html><body>SCORM TEST</body></html>'
+
+with zipfile.ZipFile('test_scorm2004.zip', 'w') as zf:
+    zf.writestr('imsmanifest.xml', manifest_content)
+    zf.writestr('index.html', html_content)
+print('created test_scorm2004.zip')

@@ -1,0 +1,629 @@
+WEBVTT
+
+0
+00:00:00.050 --> 00:00:00.709
+Hi everyone.
+
+1
+00:00:01.210 --> 00:00:02.200
+In today's video,
+
+2
+00:00:02.289 --> 00:00:06.730
+we are going to take a deep dive into one of the most devious cybercrimes out there.
+
+3
+00:00:07.320 --> 00:00:09.939
+Business email compromise or BEC.
+
+4
+00:00:10.199 --> 00:00:11.109
+Now you may be thinking,
+
+5
+00:00:11.159 --> 00:00:13.109
+what's so special about emails?
+
+6
+00:00:13.189 --> 00:00:14.640
+We get hundreds every day,
+
+7
+00:00:14.880 --> 00:00:15.439
+right?
+
+8
+00:00:15.800 --> 00:00:18.639
+Just wait till you see how hackers are using something as simple
+
+9
+00:00:18.639 --> 00:00:23.100
+as emails to stealthily rob companies of millions of dollars worldwide.
+
+10
+00:00:23.319 --> 00:00:26.020
+We are talking about sophisticated cybercriminals
+
+11
+00:00:26.159 --> 00:00:29.020
+who have perfected the art of social engineering.
+
+12
+00:00:29.209 --> 00:00:31.069
+They quietly lurk in the shadows,
+
+13
+00:00:31.280 --> 00:00:34.029
+studying their prey like a cheetah stalks a gazelle.
+
+14
+00:00:34.240 --> 00:00:36.880
+They pounce to impersonate your boss or a client.
+
+15
+00:00:37.071 --> 00:00:38.852
+Over a perfectly crafted email.
+
+16
+00:00:39.391 --> 00:00:40.332
+Before you know it,
+
+17
+00:00:40.712 --> 00:00:42.891
+money has vanished into thin air.
+
+18
+00:00:43.192 --> 00:00:45.631
+These digital bandits are super slick with
+
+19
+00:00:45.631 --> 00:00:48.001
+their techniques like spoofing email addresses,
+
+20
+00:00:48.152 --> 00:00:50.791
+or deploying malicious software from a single click.
+
+21
+00:00:51.062 --> 00:00:53.462
+Even the most tech savvy can fall for their tricks.
+
+22
+00:00:53.712 --> 00:00:57.212
+But we don't want you or your company to become their next target.
+
+23
+00:00:57.492 --> 00:00:59.911
+That's why we have partnered with Stonefly to make
+
+24
+00:00:59.911 --> 00:01:02.071
+sure that your cyber defenses are at par.
+
+25
+00:01:02.381 --> 00:01:06.152
+Daily security review subscribers can get a 56 terabytes,
+
+26
+00:01:06.512 --> 00:01:06.711
+fully.
+
+27
+00:01:06.823 --> 00:01:09.134
+Air gapped and immutable Vam backup and
+
+28
+00:01:09.134 --> 00:01:11.363
+disaster recovery appliance at half the price.
+
+29
+00:01:12.024 --> 00:01:16.043
+Contact sales at stonefly.com to claim this limited time promo.
+
+30
+00:01:16.344 --> 00:01:16.713
+Now,
+
+31
+00:01:16.723 --> 00:01:17.683
+back to the video.
+
+32
+00:01:17.903 --> 00:01:21.503
+Let us now pull back the curtain on business email compromise scams.
+
+33
+00:01:21.704 --> 00:01:22.853
+By the end of this video,
+
+34
+00:01:22.984 --> 00:01:25.083
+you'll know exactly how they operate,
+
+35
+00:01:25.304 --> 00:01:26.494
+and more importantly,
+
+36
+00:01:26.664 --> 00:01:30.134
+how to spot and stop these email imposters in their tracks.
+
+37
+00:01:30.384 --> 00:01:33.573
+Business email compromise is a sophisticated cybercrime that
+
+38
+00:01:33.573 --> 00:01:36.543
+has cost businesses billions of dollars worldwide.
+
+39
+00:01:37.246 --> 00:01:38.526
+As the name suggests,
+
+40
+00:01:38.776 --> 00:01:41.456
+it involves compromising legitimate business
+
+41
+00:01:41.456 --> 00:01:43.396
+email accounts to defraud companies.
+
+42
+00:01:43.685 --> 00:01:45.755
+Hackers will infiltrate a company's network,
+
+43
+00:01:46.216 --> 00:01:47.805
+typically through phishing emails,
+
+44
+00:01:48.136 --> 00:01:52.036
+and gain access to email accounts of employees with financial access.
+
+45
+00:01:52.255 --> 00:01:55.456
+They then impersonate the employee or their boss,
+
+46
+00:01:55.655 --> 00:01:58.295
+or even a vendor and try to trick other
+
+47
+00:01:58.295 --> 00:02:01.045
+employees into sending money to hackers' bank accounts.
+
+48
+00:02:01.176 --> 00:02:04.475
+One of the main reasons why these scams are so successful
+
+49
+00:02:04.655 --> 00:02:06.375
+is because they exploit the.
+
+50
+00:02:06.847 --> 00:02:09.197
+trust we place in email correspondence.
+
+51
+00:02:09.407 --> 00:02:11.688
+We automatically assume that an email coming
+
+52
+00:02:11.688 --> 00:02:14.197
+from a colleague's account must be legitimate.
+
+53
+00:02:14.447 --> 00:02:14.848
+However,
+
+54
+00:02:14.957 --> 00:02:17.527
+hackers can spoof email addresses to make
+
+55
+00:02:17.527 --> 00:02:20.367
+them look identical to real employee addresses,
+
+56
+00:02:20.548 --> 00:02:22.027
+with just a minor difference.
+
+57
+00:02:22.328 --> 00:02:24.917
+Some common BEC scams include CEO fraud,
+
+58
+00:02:25.048 --> 00:02:27.147
+where hackers impersonate the CEO
+
+59
+00:02:27.287 --> 00:02:29.277
+and request financial transactions.
+
+60
+00:02:29.477 --> 00:02:31.128
+Another is vendor invoice fraud,
+
+61
+00:02:31.207 --> 00:02:33.307
+where they pretend to be a vendor and demand payment.
+
+62
+00:02:33.727 --> 00:02:36.207
+These scams typically target accounting and finance.
+
+63
+00:02:36.320 --> 00:02:39.750
+Employees who are authorized for wire transfers and payments.
+
+64
+00:02:39.940 --> 00:02:42.520
+Once money is transferred to the hacker's bank account,
+
+65
+00:02:42.720 --> 00:02:45.639
+it becomes extremely difficult to retrieve.
+
+66
+00:02:45.839 --> 00:02:49.279
+Here are some of the techniques hackers use to compromise email accounts
+
+67
+00:02:49.399 --> 00:02:51.800
+and carry out BEC scams.
+
+68
+00:02:51.960 --> 00:02:55.270
+One of the most common techniques is called email spoofing,
+
+69
+00:02:55.559 --> 00:02:57.800
+where hackers generate emails with addresses
+
+70
+00:02:57.800 --> 00:03:00.309
+very similar to legitimate company employees.
+
+71
+00:03:00.600 --> 00:03:01.270
+For example,
+
+72
+00:03:01.800 --> 00:03:03.320
+instead of john@mail.com,
+
+73
+00:03:03.440 --> 00:03:06.000
+the hackers would replace the O in the word.
+
+74
+00:03:06.511 --> 00:03:07.332
+with a 0.
+
+75
+00:03:07.591 --> 00:03:11.132
+This tricks recipients into thinking it's a real internal email.
+
+76
+00:03:11.472 --> 00:03:14.182
+Another popular tactic is spear phishing attacks,
+
+77
+00:03:14.511 --> 00:03:17.281
+where malicious links or attachments are disguised to
+
+78
+00:03:17.281 --> 00:03:19.421
+look like they come from trusted sources.
+
+79
+00:03:19.591 --> 00:03:21.031
+If an employee clicks on them,
+
+80
+00:03:21.231 --> 00:03:23.462
+hackers can deploy malware remotely.
+
+81
+00:03:23.701 --> 00:03:25.751
+This allows them to steal credentials and
+
+82
+00:03:25.751 --> 00:03:28.212
+monitor the internal network without detection.
+
+83
+00:03:28.472 --> 00:03:29.591
+Once inside the network,
+
+84
+00:03:29.792 --> 00:03:32.091
+hackers spend time on reconnaissance.
+
+85
+00:03:32.311 --> 00:03:35.712
+They monitor email correspondence to understand payment processes.
+
+86
+00:03:35.983 --> 00:03:38.093
+Financial jargons and key contacts.
+
+87
+00:03:38.384 --> 00:03:41.694
+This helps them craft very convincing BC emails later on.
+
+88
+00:03:41.944 --> 00:03:44.503
+The compromised accounts and network access are then
+
+89
+00:03:44.503 --> 00:03:47.964
+used to impersonate employees and executives over email.
+
+90
+00:03:48.264 --> 00:03:51.514
+Hackers try to urgently request financial transactions
+
+91
+00:03:51.514 --> 00:03:54.574
+by claiming pending invoices or important deals.
+
+92
+00:03:54.794 --> 00:03:56.854
+They rely on the pressure of deadlines,
+
+93
+00:03:56.944 --> 00:03:57.604
+urgency,
+
+94
+00:03:57.613 --> 00:04:00.414
+and impersonation to bypass fraud checks.
+
+95
+00:04:00.613 --> 00:04:03.093
+Another common tactic is vendor invoice fraud.
+
+96
+00:04:03.343 --> 00:04:05.054
+Hackers pretend to be actual vendors,
+
+97
+00:04:05.063 --> 00:04:05.703
+the company works.
+
+98
+00:04:05.865 --> 00:04:08.645
+With regularly and demand payments for invoices,
+
+99
+00:04:08.735 --> 00:04:12.276
+but the money is redirected to hacker-controlled accounts instead.
+
+100
+00:04:12.695 --> 00:04:17.015
+Account compromise techniques involves cyber criminals hacking into employee
+
+101
+00:04:17.015 --> 00:04:20.446
+email or business accounts and accessing financial records.
+
+102
+00:04:20.656 --> 00:04:23.496
+They then use this sensitive data like vendor contacts
+
+103
+00:04:23.496 --> 00:04:26.526
+to make fraudulent payment requests seem more legitimate.
+
+104
+00:04:27.015 --> 00:04:29.696
+Sometimes hackers even impersonate legal counsels
+
+105
+00:04:29.816 --> 00:04:32.895
+and send out BEC emails with threats of legal action
+
+106
+00:04:33.055 --> 00:04:35.536
+if transactions are not processed immediately.
+
+107
+00:04:36.109 --> 00:04:38.980
+This scares employees into complying without verifying.
+
+108
+00:04:39.230 --> 00:04:41.750
+So how do you deal with such a pesky cyber threat?
+
+109
+00:04:42.049 --> 00:04:46.529
+Let us share some best practices to help you protect your business against VC fraud.
+
+110
+00:04:46.829 --> 00:04:47.519
+Number one,
+
+111
+00:04:47.799 --> 00:04:50.920
+Implement multi-factor authentication for wire
+
+112
+00:04:50.920 --> 00:04:52.869
+transfers and financial systems.
+
+113
+00:04:53.269 --> 00:04:53.959
+Number 2,
+
+114
+00:04:54.359 --> 00:04:58.269
+train employees on BEC awareness through simulated phishing tests.
+
+115
+00:04:58.559 --> 00:04:59.339
+Number 3,
+
+116
+00:04:59.640 --> 00:05:02.640
+carefully verify all email payment requests by calling
+
+117
+00:05:02.640 --> 00:05:04.980
+the requester on records or in person.
+
+118
+00:05:05.279 --> 00:05:06.109
+Number 4,
+
+119
+00:05:06.339 --> 00:05:09.399
+use tools that flag anomalous emails patterns,
+
+120
+00:05:09.670 --> 00:05:12.579
+detect spoofed email addresses and enable DMar.
+
+121
+00:05:13.119 --> 00:05:13.910
+Number 5,
+
+122
+00:05:14.190 --> 00:05:15.559
+back up financial data regularly.
+
+123
+00:05:15.940 --> 00:05:18.309
+So it can be restored quickly if compromised.
+
+124
+00:05:18.609 --> 00:05:19.399
+Number 6,
+
+125
+00:05:19.850 --> 00:05:21.519
+report any BEC attempts,
+
+126
+00:05:21.609 --> 00:05:23.170
+even if not successful,
+
+127
+00:05:23.410 --> 00:05:27.589
+are reported to the FBI's Internet Crime Complaint Center or IC3.
+
+128
+00:05:27.739 --> 00:05:29.989
+This helps authorities track criminal groups
+
+129
+00:05:30.130 --> 00:05:32.549
+and prevents other businesses from being targeted.
+
+130
+00:05:33.010 --> 00:05:33.470
+So,
+
+131
+00:05:33.649 --> 00:05:34.690
+what have we learned so far?
+
+132
+00:05:34.970 --> 00:05:37.450
+VC is a serious cybercrime that involves
+
+133
+00:05:37.450 --> 00:05:40.809
+exploiting the trust in email to impersonate employees
+
+134
+00:05:40.970 --> 00:05:43.369
+and defraud companies of millions.
+
+135
+00:05:44.079 --> 00:05:47.059
+Hackers can use a range of tactics like spear phishing,
+
+136
+00:05:47.220 --> 00:05:47.940
+malware,
+
+137
+00:05:48.040 --> 00:05:52.040
+and email spoofing to gain access to internal networks and accounts.
+
+138
+00:05:53.369 --> 00:05:56.109
+Common scam types of BEC are CEO fraud,
+
+139
+00:05:56.279 --> 00:05:57.609
+vendor invoice scams,
+
+140
+00:05:57.649 --> 00:05:59.309
+and accounting compromise fraud.
+
+141
+00:06:00.459 --> 00:06:01.929
+To protect your business,
+
+142
+00:06:02.230 --> 00:06:05.309
+you must train employees on verification measures,
+
+143
+00:06:05.510 --> 00:06:07.899
+implement multi-factor authentication,
+
+144
+00:06:08.190 --> 00:06:12.890
+use tools to detect BEC and report any BEC attempts immediately.
+
+145
+00:06:13.290 --> 00:06:14.040
+Looking ahead,
+
+146
+00:06:14.269 --> 00:06:16.269
+as hackers get more sophisticated,
+
+147
+00:06:16.470 --> 00:06:21.269
+we may see emerging trends like the use of AI and deep fakes in BEC attacks.
+
+148
+00:06:22.190 --> 00:06:24.420
+Criminals may generate realistic audio and
+
+149
+00:06:24.420 --> 00:06:27.170
+video to impersonate executives over calls,
+
+150
+00:06:27.339 --> 00:06:27.679
+but
+
+151
+00:06:27.899 --> 00:06:29.480
+that is a discussion for another time.
+
+152
+00:06:29.709 --> 00:06:33.119
+But if you would like us to make more educational videos like these,
+
+153
+00:06:33.579 --> 00:06:36.609
+comment down below to let us know what you would like to hear about.
+
+154
+00:06:36.829 --> 00:06:38.399
+Don't forget to subscribe.
+
+155
+00:06:38.700 --> 00:06:39.309
+Till then,
+
+156
+00:06:39.540 --> 00:06:40.380
+see you next time.

@@ -98,8 +98,8 @@ class Scorm2004Adapter:
             event_type = "initialized"
             
         progress = cmi_data.get("cmi.progress_measure")
-        progress_pct = 0
-        if progress and progress.strip():
+        progress_pct = None
+        if progress and str(progress).strip():
             try:
                 progress_pct = int(float(progress) * 100)
             except ValueError:
@@ -124,6 +124,26 @@ class Scorm2004Adapter:
         total_time_str = cmi_data.get("cmi.total_time", "")
         duration_sec = int(Scorm2004Adapter._parse_iso8601_duration(total_time_str)) if total_time_str else 0
             
+        # Extract interactions
+        interactions = {}
+        for key, value in cmi_data.items():
+            if key.startswith("cmi.interactions."):
+                parts = key.split(".")
+                if len(parts) >= 4:
+                    try:
+                        idx = int(parts[2])
+                        prop = ".".join(parts[3:])
+                        if idx not in interactions:
+                            interactions[idx] = {}
+                        interactions[idx][prop] = value
+                    except ValueError:
+                        pass
+                        
+        metadata = {}
+        if interactions:
+            # Convert dict to list
+            metadata["interactions"] = [interactions[i] for i in sorted(interactions.keys())]
+
         return LearningEvent(
             user_id=attempt.user_id,
             course_id=attempt.course_id,
@@ -139,5 +159,6 @@ class Scorm2004Adapter:
             location=cmi_data.get("cmi.location"),
             timestamp=datetime.now(timezone.utc),
             source_standard="SCORM_2004",
-            source_event_id=str(uuid.uuid4())
+            source_event_id=str(uuid.uuid4()),
+            metadata=metadata
         )

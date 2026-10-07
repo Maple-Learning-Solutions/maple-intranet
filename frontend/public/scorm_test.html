@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SCORM Test</title>
+</head>
+<body style="margin: 0; padding: 0; height: 100vh;">
+    <script>
+        const logs = [];
+        window.API_1484_11 = {
+            Initialize: function (param) { logs.push("Initialize"); return "true"; },
+            Terminate: function (param) { logs.push("Terminate"); return "true"; },
+            GetValue: function (cmi_key) { 
+                logs.push("GetValue: " + cmi_key); 
+                if (cmi_key === "cmi.score.raw") return "42";
+                if (cmi_key === "cmi.location") return "slide2";
+                if (cmi_key === "cmi.completion_status") return "incomplete";
+                if (cmi_key === "cmi.success_status") return "unknown";
+                if (cmi_key === "cmi.suspend_data") return "";
+                return ""; 
+            },
+            SetValue: function (cmi_key, cmi_value) {
+                logs.push("SetValue: " + cmi_key + " = " + cmi_value);
+                console.log("[SCORM]", cmi_key, "=", cmi_value);
+                return "true";
+            },
+            Commit: function (param) { logs.push("Commit"); return "true"; },
+            GetLastError: function () { return "0"; },
+            GetErrorString: function (errorCode) { return "No Error"; },
+            GetDiagnostic: function (errorCode) { return ""; }
+        };
+        window.getScormLogs = function() { return logs; };
+    </script>
+    <iframe src="/api/scorm-cdn/scorm/ffcdf6fa-44e9-420a-ba03-50d73b3cc412/v1/index_lms.html" style="width: 100%; height: 100%; border: none;"></iframe>
+</body>
+</html>
