@@ -139,7 +139,7 @@ export default function LearningCatalogPage() {
                 {course.title}
               </h3>
               <p className="text-body-sm text-slate-600 mb-6 flex-1">
-                {course.description || "No description provided."}
+                {course.description ? course.description.replace(/<[^>]+>/g, '') : "No description provided."}
               </p>
               
               <div className="flex items-center gap-4 text-sm text-slate-500 mt-auto">

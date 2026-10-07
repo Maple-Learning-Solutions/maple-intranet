@@ -4,7 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Search, Bell, Settings as SettingsIcon, ChevronDown, HelpCircle, Share2, CheckCheck, Loader2, Menu, X } from "lucide-react";
+import { Search, Bell, Settings as SettingsIcon, ChevronDown, HelpCircle, Share2, CheckCheck, Loader2, Menu, X, UserCircle, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
 import { useWebSocket } from "@/hooks/use-websocket";
@@ -30,6 +30,7 @@ export function TopNav() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { lastMessage } = useWebSocket();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -288,87 +289,24 @@ export function TopNav() {
             <NavItem title="Employee Resources" links={employeeResources} dataTour="nav-employee-resources" />
             <NavItem title="Workspaces & Teams" links={workspaces} dataTour="nav-workspaces" />
             {isAdmin && (
-              <div className="hidden xl:block">
-                <NavItem title="Admin" links={adminLinks} />
-              </div>
+              <NavItem title="Admin" links={adminLinks} />
             )}
-
-            {/* More Menu for 1024px */}
-            <div className="hidden lg:block xl:hidden group relative">
-              <button suppressHydrationWarning className="whitespace-nowrap flex items-center gap-1 text-sm font-semibold py-1 text-white hover:text-[#00dc82]">
-                More <ChevronDown className="h-4 w-4" />
-              </button>
-              <div id="more-nav-dropdown" className="absolute left-0 top-full hidden w-56 flex-col bg-white shadow-lg border border-gray-200 rounded-md py-2 group-hover:flex z-50">
-                {isAdmin && (
-                  <>
-                    <div className="px-4 py-1 text-xs font-bold text-gray-400 uppercase tracking-wider">Admin</div>
-                    {adminLinks.map(link => (
-                      <Link key={link.name} href={link.href} className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#00dc82]">
-                        {link.name}
-                      </Link>
-                    ))}
-                    <div className="my-1 border-t border-gray-100"></div>
-                  </>
-                )}
-                <div className="px-4 py-1 text-xs font-bold text-gray-400 uppercase tracking-wider">Utilities</div>
-                
-                <button id="more-nav-help" className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#00dc82] flex items-center gap-2">
-                  <HelpCircle className="h-4 w-4" /> Help
-                </button>
-                <Link href="/settings" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#00dc82] flex items-center gap-2">
-                  <SettingsIcon className="h-4 w-4" /> Settings
-                </Link>
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#00dc82] flex items-center gap-2">
-                  <Share2 className="h-4 w-4" /> Share
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Right Side: Search and Icons */}
         <div className="flex items-center gap-2 md:gap-4">
-          {/* Search Icon for lg (1024px) */}
-          <button suppressHydrationWarning className="hidden lg:block xl:hidden text-white hover:text-gray-300 p-1">
+          {/* Search Icon */}
+          <button 
+            data-tour="nav-search"
+            suppressHydrationWarning 
+            onClick={() => setIsSearchOpen(true)}
+            className="hidden lg:block text-white hover:text-gray-300 p-1 mr-2 transition-colors"
+          >
             <Search className="h-5 w-5" />
           </button>
 
-          {/* Full Search Bar for xl (1280px+) */}
-          <div data-tour="nav-search" className="relative hidden xl:flex w-64 items-center mr-2">
-            <Search className="absolute left-3 h-4 w-4 text-gray-500" />
-            <input
-              suppressHydrationWarning
-              type="text"
-              placeholder="Search this site"
-              className="h-8 w-full rounded-md bg-white/10 border border-white/20 pl-9 pr-4 text-sm text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#00dc82] focus:bg-white focus:text-black transition-all"
-            />
-          </div>
-
           <div className="flex items-center gap-2 md:gap-4 text-white">
-            <button data-tour="nav-help" id="desktop-nav-help" suppressHydrationWarning className="hidden xl:block hover:text-gray-300 transition-colors relative group">
-              <HelpCircle className="h-5 w-5 peer" />
-              <div className="absolute right-0 top-full mt-3 w-80 bg-white text-slate-800 text-sm p-5 rounded-xl shadow-2xl opacity-0 invisible peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:visible transition-all duration-300 z-50 border border-slate-100 cursor-default">
-                <div className="absolute -top-2 right-4 w-4 h-4 bg-white transform rotate-45 border-l border-t border-slate-100"></div>
-                <div className="relative z-10 text-left">
-                  <h4 className="font-bold text-slate-900 mb-2 text-base">About Maple Intranet</h4>
-                  <p className="mb-3 text-slate-600 leading-relaxed">
-                    Maple Intranet provides a complete hub for internal documents, events, training resources, and company updates.
-                  </p>
-                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                    <p className="font-semibold text-xs text-slate-500 uppercase tracking-wider mb-1">Contact Admin for Help</p>
-                    <a href="mailto:Info@maplelearningsolutions.com" className="text-brand-green font-medium hover:underline text-sm break-all">
-                      Info@maplelearningsolutions.com
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </button>
-            <Link href="/settings" className="hidden xl:block hover:text-gray-300 transition-colors">
-              <SettingsIcon className="h-5 w-5" />
-            </Link>
-            <button suppressHydrationWarning className="hidden xl:block hover:text-gray-300 transition-colors">
-              <Share2 className="h-5 w-5" />
-            </button>
             <div className="relative" ref={dropdownRef}>
               <button
                 suppressHydrationWarning
@@ -421,12 +359,65 @@ export function TopNav() {
               )}
             </div>
             {!isLoaded ? null : isSignedIn ? (
-              <div className="flex items-center gap-2">
-                <button onClick={() => startNavigationTour()} className="px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded text-sm transition-colors hidden lg:block whitespace-nowrap font-medium">Guide</button>
-                <button onClick={() => require("next-auth/react").signOut()} className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm transition-colors whitespace-nowrap">Sign Out</button>
+              <div className="relative group flex items-center">
+                <button className="flex items-center justify-center p-1 hover:text-gray-300 transition-colors">
+                  <UserCircle className="h-6 w-6" />
+                </button>
+                
+                {/* Profile Dropdown */}
+                <div className="absolute right-0 top-full mt-3 w-72 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="p-4 bg-slate-50/50 border-b border-slate-100 rounded-t-xl">
+                    <p className="font-semibold text-slate-900 truncate">{user?.name || "User"}</p>
+                    <p className="text-xs text-slate-500 truncate mt-0.5">{user?.email || "No email"}</p>
+                  </div>
+                  
+                  <div className="p-2">
+                    <p className="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider mt-1 mb-1">Account</p>
+                    <Link href="/settings" className="flex items-center gap-3 w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-brand-green/10 hover:text-brand-green-dark rounded-md transition-colors">
+                      <SettingsIcon className="h-4 w-4" /> Settings
+                    </Link>
+                    
+                    <div className="my-2 border-t border-slate-100"></div>
+                    
+                    <p className="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider mt-1 mb-1">Support & Resources</p>
+                    
+                    {/* Nested About Section */}
+                    <div className="group/help relative">
+                      <button className="flex items-center justify-between w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-brand-green/10 hover:text-brand-green-dark rounded-md transition-colors">
+                        <div className="flex items-center gap-3">
+                          <HelpCircle className="h-4 w-4" /> About Intranet
+                        </div>
+                        <ChevronDown className="h-3 w-3 -rotate-90 text-slate-400" />
+                      </button>
+                      <div className="absolute right-full top-0 mr-2 w-64 bg-slate-800 text-white text-sm p-4 rounded-xl shadow-xl opacity-0 invisible group-hover/help:opacity-100 group-hover/help:visible transition-all duration-200 border border-slate-700">
+                        <h4 className="font-bold text-white mb-2">About Maple Intranet</h4>
+                        <p className="mb-3 text-slate-300 text-xs leading-relaxed">
+                          Maple Intranet provides a complete hub for internal documents, events, training resources, and company updates.
+                        </p>
+                        <a href="mailto:Info@maplelearningsolutions.com" className="text-brand-green font-medium text-xs break-all">
+                          Info@maplelearningsolutions.com
+                        </a>
+                      </div>
+                    </div>
+
+                    <button onClick={() => startNavigationTour()} className="flex items-center gap-3 w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-brand-green/10 hover:text-brand-green-dark rounded-md transition-colors">
+                      <HelpCircle className="h-4 w-4" /> Guided Tour
+                    </button>
+                    <button className="flex items-center gap-3 w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-brand-green/10 hover:text-brand-green-dark rounded-md transition-colors">
+                      <Share2 className="h-4 w-4" /> Share
+                    </button>
+                    
+                    <div className="my-2 border-t border-slate-100"></div>
+                    
+                    <button onClick={() => require("next-auth/react").signOut()} className="flex items-center gap-3 w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors font-medium">
+                      <LogOut className="h-4 w-4" /> Sign Out
+                    </button>
+                  </div>
+                </div>
               </div>
             ) : (
-              <Link href="/sign-in" className="text-sm font-semibold bg-brand-green text-black px-3 py-1.5 rounded hover:bg-brand-teal transition-colors">
+              <Link href="/sign-in" className="flex items-center gap-2 text-sm font-semibold bg-brand-green text-black px-4 py-1.5 rounded-md hover:bg-brand-teal transition-colors">
+                <UserCircle className="h-4 w-4" />
                 Sign In
               </Link>
             )}
@@ -509,6 +500,51 @@ export function TopNav() {
                   <Share2 className="h-5 w-5" />
                   <span className="text-xs">Share</span>
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search Modal */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-24 sm:pt-32">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsSearchOpen(false)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl overflow-hidden mx-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center border-b border-gray-100 px-4">
+              <Search className="h-5 w-5 text-gray-400" />
+              <input 
+                autoFocus
+                type="text" 
+                placeholder="Search resources, articles, courses..."
+                className="flex-1 h-14 bg-transparent border-0 px-4 text-base md:text-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0"
+              />
+              <button 
+                onClick={() => setIsSearchOpen(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                <X className="h-5 w-5" />
+                <span className="sr-only">Close</span>
+              </button>
+            </div>
+            
+            <div className="p-4 bg-slate-50/50 min-h-[200px]">
+              <div className="text-sm font-medium text-slate-500 mb-3 px-2">Quick Actions</div>
+              <div className="space-y-1">
+                <Link href="/learning" onClick={() => setIsSearchOpen(false)} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white hover:shadow-sm text-slate-700 transition-all border border-transparent hover:border-slate-100">
+                  <div className="p-1.5 bg-brand-green/10 text-brand-green rounded-md"><Search className="h-4 w-4" /></div>
+                  Search Learning Hub
+                </Link>
+                <Link href="/documents" onClick={() => setIsSearchOpen(false)} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white hover:shadow-sm text-slate-700 transition-all border border-transparent hover:border-slate-100">
+                  <div className="p-1.5 bg-blue-100 text-blue-600 rounded-md"><Search className="h-4 w-4" /></div>
+                  Search Documents
+                </Link>
               </div>
             </div>
           </div>

@@ -407,21 +407,21 @@ export function LandingPage({ isPublic, isLoggedIn }: LandingPageProps) {
                 <h2 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">Announcements</h2>
               </div>
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex-1 overflow-y-auto space-y-4 min-h-[300px]">
-                {/* Placeholder Announcements */}
+                {/* Company Announcements */}
                 <div className="p-4 bg-brand-green/10 rounded-lg border border-brand-green/20">
                   <span className="text-xs font-bold text-brand-green uppercase tracking-wide">Important</span>
-                  <h3 className="font-bold text-slate-900 mt-1 mb-2">New Healthcare Benefits Enrollment</h3>
-                  <p className="text-sm text-slate-600">Open enrollment for the new healthcare plans starts next Monday. Please review the updated documentation in the HR portal.</p>
-                </div>
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
-                  <span className="text-xs font-bold text-blue-600 uppercase tracking-wide">Notice</span>
-                  <h3 className="font-bold text-slate-900 mt-1 mb-2">Scheduled IT Maintenance</h3>
-                  <p className="text-sm text-slate-600">The main server will undergo maintenance this Saturday from 2:00 AM to 5:00 AM EST. Expect minor disruptions.</p>
+                  <h3 className="font-bold text-slate-900 mt-1 mb-2">Hubstaff Tracking Requirements</h3>
+                  <p className="text-sm text-slate-600">Logging into Hubstaff is mandatory for measuring productivity. Please ensure your tracked start and end times cover a full 8-hour shift and maintain at least a 60% activity level.</p>
                 </div>
                 <div className="p-4 bg-amber-50 rounded-lg border border-amber-100">
                   <span className="text-xs font-bold text-amber-600 uppercase tracking-wide">Action Required</span>
-                  <h3 className="font-bold text-slate-900 mt-1 mb-2">Quarterly Compliance Training</h3>
-                  <p className="text-sm text-slate-600">Please complete your Q3 compliance training modules by the end of the month. Links are available in your email.</p>
+                  <h3 className="font-bold text-slate-900 mt-1 mb-2">Daily Maple Bot Updates</h3>
+                  <p className="text-sm text-slate-600">Morning check-ins via Maple Bot are mandatory and must include clear TODO items. At EOD, update your activities to 'Completed' or 'WIP' according to their status, providing reasons for any incomplete tasks.</p>
+                </div>
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                  <span className="text-xs font-bold text-blue-600 uppercase tracking-wide">Notice</span>
+                  <h3 className="font-bold text-slate-900 mt-1 mb-2">Leave Applications & Handovers</h3>
+                  <p className="text-sm text-slate-600">When requesting leave, ensure proper communication via email. You must also ensure your pending tasks are finished and dependencies are closed to maintain a seamless workflow in your absence.</p>
                 </div>
               </div>
             </div>

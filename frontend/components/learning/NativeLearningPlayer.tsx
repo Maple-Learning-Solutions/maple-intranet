@@ -276,6 +276,38 @@ export default function NativeLearningPlayer({
         )}
         
         {activeLesson ? (
+          (() => {
+            const hasHtmlViewer = activeLesson.content_blocks?.some((b: any) => b.type === "HTML_VIEWER");
+            if (hasHtmlViewer) {
+              return (
+                <div className="flex-1 flex flex-col h-full overflow-hidden">
+                  <div className="flex-1 w-full h-full relative overflow-hidden bg-white">
+                    {activeLesson.content_blocks.map((block: any) => (
+                      <ContentBlockRenderer key={block.id} block={block} courseId={courseId} />
+                    ))}
+                  </div>
+                  <div className="p-4 md:p-6 border-t border-hairline bg-surface flex items-center justify-between shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-20">
+                    <div className="min-w-0 flex-1">
+                      <h2 className="text-lg font-heading font-bold text-ink truncate pr-4">{activeLesson.title}</h2>
+                    </div>
+                    <button 
+                      disabled={isSubmitting || completedLessonIds.includes(activeLesson.id)}
+                      className={`px-6 py-2.5 font-semibold rounded-lg transition-all flex items-center justify-center gap-2 flex-shrink-0 ${
+                        completedLessonIds.includes(activeLesson.id) 
+                          ? "bg-brand-green/10 text-brand-green border border-brand-green/20" 
+                          : "bg-brand-green hover:bg-brand-teal-deep text-white shadow-sm"
+                      }`}
+                      onClick={handleContinue}
+                    >
+                      {completedLessonIds.includes(activeLesson.id) ? (
+                        <><CheckCircle2 className="w-5 h-5" /> Completed</>
+                      ) : "Mark as Complete"} 
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+            return (
           <div className="flex-1 flex flex-col">
             
             {/* Main scrollable area */}
@@ -369,6 +401,8 @@ export default function NativeLearningPlayer({
 
             
           </div>
+            );
+          })()
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-4">
             <div className="w-16 h-16 bg-surface-soft rounded-full flex items-center justify-center border border-hairline">
@@ -488,6 +522,17 @@ function ContentBlockRenderer({ block, courseId }: { block: any, courseId?: numb
         />
       );
       
+    case "HTML_VIEWER":
+      if (!metadata.url) return null;
+      return (
+        <iframe 
+          src={metadata.url} 
+          className="w-full h-full border-0 absolute inset-0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+        />
+      );
+
     default:
       return null;
   }
