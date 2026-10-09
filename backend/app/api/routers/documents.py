@@ -102,7 +102,7 @@ async def create_document(
         visibility=doc_in.visibility,
         version="1.0",
         status="PUBLISHED",
-        created_by="temp_admin_user" # Mocked user
+        created_by=current_user.id
     )
     db.add(document)
     await db.commit()
