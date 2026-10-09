@@ -208,13 +208,14 @@ class CourseUpdate(BaseModel):
 async def create_course(
     course_in: CourseCreate,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     
     course = Course(
         title=course_in.title,
         description=course_in.description,
         category_id=course_in.category_id,
-        created_by="temp_admin_user", # Mock user
+        created_by=current_user.id,
         is_published=True,
         course_type=course_in.course_type,
         duration_minutes=course_in.duration_minutes,
