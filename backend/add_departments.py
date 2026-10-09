@@ -5,7 +5,7 @@ from app.models.core import Department
 from sqlalchemy import select
 
 async def add_departments():
-    departments_to_add = ["eLearning", "Marketing", "Sales", "Development"]
+    departments_to_add = ["HR", "eLearning", "Sales", "Marketing", "Web Development"]
     
     async with AsyncSessionLocal() as db:
         for name in departments_to_add:
