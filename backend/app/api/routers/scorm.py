@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.models.learning import LearningPackage, Cmi5AssignableUnit
 from app.learning.repositories.package_repository import PackageRepository
+from app.api.deps import require_admin
 
 router = APIRouter()
 package_repo = PackageRepository()
@@ -16,7 +17,8 @@ async def upload_scorm_package(
     title: str = Form(...),
     version: str = Form("1.0"),
     file: UploadFile = File(...),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_admin)
 ):
     if not file.filename.endswith('.zip'):
         raise HTTPException(status_code=400, detail="Only .zip files are allowed")
@@ -40,7 +42,7 @@ async def upload_scorm_package(
             manifest_path=result.get("manifest_path", ""),
             package_hash=result.get("package_hash", ""),
             entry_point_url=result["entry_point_url"],
-            uploaded_by="temp_admin_user" # Mocked for now
+            uploaded_by=current_user.id
         )
         db.add(package)
         await db.commit()

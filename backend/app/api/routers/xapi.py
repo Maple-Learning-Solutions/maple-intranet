@@ -141,9 +141,8 @@ async def post_statement(
         elif "mbox" in actor:
             user_id = actor["mbox"].replace("mailto:", "")
             
-    # Fallback to empty string or a dummy id if totally absent, though schema enforces NOT NULL
-    if not user_id:
-        user_id = "unknown_xapi_user"
+        if not user_id:
+            user_id = None
         
     inbox_id = str(uuid.uuid4())
     inbox_event = TrackingEventInbox(
@@ -188,7 +187,7 @@ async def put_statement(
             user_id = actor["mbox"].replace("mailto:", "")
             
         if not user_id:
-            user_id = "unknown_xapi_user"
+            user_id = None
         
         inbox_id = str(uuid.uuid4())
         inbox_event = TrackingEventInbox(

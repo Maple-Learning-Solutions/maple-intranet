@@ -21,7 +21,8 @@ async def upload_learning_package(
     version: str = Form("1.0"),
     declared_standard: str = Form(None),
     file: UploadFile = File(...),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_admin)
 ):
     if not file.filename.endswith('.zip'):
         raise HTTPException(status_code=400, detail="Only .zip files are allowed")
@@ -91,7 +92,7 @@ async def upload_learning_package(
             storage_version="v1",
             launch_file=launch_file,
             package_version=1,
-            uploaded_by="temp_admin_user" # Mocked for now
+            uploaded_by=current_user.id
         )
         db.add(package)
         await db.commit()
