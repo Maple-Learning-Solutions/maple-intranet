@@ -10,8 +10,9 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "https://intranet.maplelearningsolutions.com",
     ],
-    allow_origin_regex=r"https://.*\.vercel\.app|https://.*\.onrender\.com",
+    allow_origin_regex=r"https://.*\.vercel\.app|https://.*\.onrender\.com|https://.*\.maplelearningsolutions\.com",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
