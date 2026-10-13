@@ -15,10 +15,37 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Maple Intranet",
-  description: "Company Intranet Platform",
+  metadataBase: new URL(
+    process.env.NEXTAUTH_URL && !process.env.NEXTAUTH_URL.includes("localhost")
+      ? process.env.NEXTAUTH_URL
+      : "https://intranet.maplelearningsolutions.com"
+  ),
+  title: "Maple Intranet | Maple Learning Solutions",
+  description: "Stay connected with company news, upcoming events, helpful resources, and learning at Maple Learning Solutions.",
   icons: {
     icon: "/maple-icon.ico",
+  },
+  openGraph: {
+    title: "Maple Intranet | Maple Learning Solutions",
+    description: "Stay connected with company news, upcoming events, helpful resources, and learning at Maple Learning Solutions.",
+    url: "https://intranet.maplelearningsolutions.com",
+    siteName: "Maple Intranet",
+    images: [
+      {
+        url: "/social-preview.png",
+        width: 1367,
+        height: 738,
+        alt: "Welcome to Maple Learning Solutions Intranet",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Maple Intranet | Maple Learning Solutions",
+    description: "Stay connected with company news, upcoming events, helpful resources, and learning at Maple Learning Solutions.",
+    images: ["/social-preview.png"],
   },
 };
 
