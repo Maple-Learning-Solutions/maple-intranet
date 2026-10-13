@@ -119,19 +119,9 @@ async def _send_verification_email(
             resend.Emails.send(email_payload)
             logger.info("Verification email sent to %s via %s", email, from_email)
         except Exception as send_err:
-            # If sending failed due to unverified custom domain on Resend, try fallback to onboarding@resend.dev
-            if "not verified" in str(send_err).lower() and from_email != "onboarding@resend.dev":
-                logger.warning(
-                    "Sender %s not verified in Resend. Falling back to onboarding@resend.dev.",
-                    from_email,
-                )
-                email_payload["from"] = "onboarding@resend.dev"
-                resend.Emails.send(email_payload)
-                logger.info("Verification email sent to %s via fallback sender onboarding@resend.dev", email)
-            else:
-                raise send_err
+            logger.error("Resend delivery failed to %s from %s: %s", email, from_email, send_err)
     except Exception as exc:
-        logger.warning("Failed to send verification email to %s: %s", email, exc)
+        logger.warning("Failed to prepare or send verification email to %s: %s", email, exc)
 
 
 # ---------------------------------------------------------------------------
