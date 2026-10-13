@@ -109,8 +109,8 @@ const DEFAULT_DOCK_ITEMS: DockNavItem[] = [
 export const CONFLUENCE_URLS = {
   "Web & Sales": "https://renuka23062002.atlassian.net/wiki/x/nwAR", // TODO: Add actual Web & Sales Confluence URL here
   "Digital Marketing": "https://marketing-team-maple.atlassian.net/wiki/spaces/DM/overview", // TODO: Add actual Digital Marketing Confluence URL here
-  "eLearning": "#", // TODO: Add actual eLearning Confluence URL here
-  "HR": "#", // TODO: Add actual HR Confluence URL here
+  "eLearning": "https://maplelearning.atlassian.net/wiki/spaces/ELearning/overview", // TODO: Add actual eLearning Confluence URL here
+  "HR": "https://vijayswetha02.atlassian.net/wiki/x/A4A2", // TODO: Add actual HR Confluence URL here
 };
 
 interface LandingPageProps {
@@ -303,6 +303,18 @@ export function LandingPage({ isPublic, isLoggedIn }: LandingPageProps) {
       date: "Sep 2026",
       desc: "Ganesh Chaturthi celebrations.",
       img: "/Ganeshchethurthi.jpeg",
+    },
+    {
+      title: "AI Everything Abu Dhabi",
+      date: "Oct 2026",
+      desc: "Celebrating the annual expo in Abu Dhabi",
+      img: "/ai-everything-2026.webp",
+    },
+    {
+      title: "AWS Community Summit Dubai",
+      date: "Sep 2026",
+      desc: "Celebrating AI & Cloud Innovation",
+      img: "/aws-2026.webp",
     }
   ];
 

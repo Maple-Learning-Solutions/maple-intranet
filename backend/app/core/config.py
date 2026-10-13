@@ -9,6 +9,18 @@ class Settings(BaseSettings):
     AUTH_SECRET: str = "super_secret_temporary_key_for_dev_only"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7 # 1 week
     RESEND_API_KEY: str | None = None
+    RESEND_FROM_EMAIL: str = "onboarding@resend.dev"
+    # Frontend URL for email links; override to production URL in prod .env
+    FRONTEND_URL: str = "http://localhost:3000"
+    ENVIRONMENT: str = "development"
+
+    @property
+    def effective_frontend_url(self) -> str:
+        url = self.FRONTEND_URL.rstrip("/")
+        if self.ENVIRONMENT == "production" and ("localhost" in url or "127.0.0.1" in url):
+            # Production fallback to prevent broken localhost email links
+            return "https://intranet.maplelearningsolutions.com"
+        return url
 
     GROQ_API_KEY: str | None = None
     SUPABASE_URL: str = ""

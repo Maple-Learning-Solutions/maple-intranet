@@ -30,9 +30,17 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!res.ok) {
-            const errText = await res.text();
-            console.error(`Backend login failed. Status: ${res.status}, Body: ${errText}`);
-            return null;
+            let errorDetail = "Invalid email or password";
+            try {
+              const errJson = await res.json();
+              if (errJson?.detail) {
+                errorDetail = errJson.detail;
+              }
+            } catch {
+              const errText = await res.text();
+              console.error(`Backend login failed. Status: ${res.status}, Body: ${errText}`);
+            }
+            throw new Error(errorDetail);
           }
 
           const data = await res.json();
@@ -48,7 +56,11 @@ export const authOptions: NextAuthOptions = {
             };
           }
         } catch (error) {
-          console.error("Auth fetch error:", error);
+          console.error("Auth error:", error);
+          if (error instanceof Error && error.message !== "Failed to fetch") {
+            throw error;
+          }
+          throw new Error("Unable to connect to the authentication server. Please try again.");
         }
         return null;
       }
@@ -58,6 +70,23 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 7 * 24 * 60 * 60, // 7 days
   },
+  jwt: {
+    // If a token cannot be decrypted (e.g. NEXTAUTH_SECRET changed), return null
+    // so the user is silently signed out instead of crashing with JWEDecryptionFailed.
+    decode: async (params) => {
+      try {
+        const { decode } = await import("next-auth/jwt");
+        return await decode(params);
+      } catch (error: unknown) {
+        const name = (error as Error)?.name ?? "";
+        if (name === "JWEDecryptionFailed" || name === "JWTSessionError") {
+          return null;
+        }
+        throw error;
+      }
+    },
+  },
+
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       if (user) {

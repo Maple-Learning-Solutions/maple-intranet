@@ -18,6 +18,8 @@ export default function EmployeeDashboardPage() {
   const userId = session?.user?.id;
   const token = session?.accessToken;
   const [continueLearning, setContinueLearning] = useState<any[]>([]);
+  const [importantDocs, setImportantDocs] = useState<any[]>([]);
+  const [docsLoading, setDocsLoading] = useState(true);
 
   useEffect(() => {
     if (!userId) return;
@@ -41,6 +43,25 @@ export default function EmployeeDashboardPage() {
     fetchCourses();
   }, [userId]);
 
+  useEffect(() => {
+    const fetchDocs = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/documents`);
+        const data = await res.json();
+        // Take the 4 most recently updated documents
+        const sorted = (data || []).sort((a: any, b: any) =>
+          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+        ).slice(0, 4);
+        setImportantDocs(sorted);
+      } catch (err) {
+        console.error('Failed to fetch documents', err);
+      } finally {
+        setDocsLoading(false);
+      }
+    };
+    fetchDocs();
+  }, []);
+
   return (
     <div className="space-y-10 pb-12">
       
@@ -48,9 +69,9 @@ export default function EmployeeDashboardPage() {
       <div className="bg-gradient-to-r from-brand-teal-deep to-brand-teal rounded-2xl p-8 shadow-sm flex items-center justify-between overflow-hidden relative">
         <div className="relative z-10">
           <h1 className="text-display-lg font-heading font-semibold text-white tracking-tight">
-            Good morning, Nitin 👋
+            Good morning, {session?.user?.name?.split(' ')[0] ?? 'there'} 👋
           </h1>
-          <p className="mt-2 text-brand-teal-light text-lg">
+          <p className="mt-2 text-white/80 text-lg">
             Welcome to Maple Intranet. Here's your overview for today.
           </p>
         </div>
@@ -113,17 +134,56 @@ export default function EmployeeDashboardPage() {
                 Browse Library <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-5 rounded-lg bg-surface border border-hairline hover:border-accent-purple/30 transition-colors cursor-pointer group">
-                <h4 className="font-semibold text-ink group-hover:text-accent-purple transition-colors">Employee Handbook 2026</h4>
-                <p className="text-sm text-slate-500 mt-1">Updated 2 days ago</p>
+
+            {docsLoading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="p-5 rounded-lg bg-surface border border-hairline animate-pulse">
+                    <div className="h-4 bg-slate-200 rounded w-3/4 mb-2" />
+                    <div className="h-3 bg-slate-100 rounded w-1/2" />
+                  </div>
+                ))}
               </div>
-              <div className="p-5 rounded-lg bg-surface border border-hairline hover:border-accent-orange/30 transition-colors cursor-pointer group">
-                <h4 className="font-semibold text-ink group-hover:text-accent-orange transition-colors">Remote Work Policy</h4>
-                <p className="text-sm text-slate-500 mt-1">Mandatory Review</p>
+            ) : importantDocs.length === 0 ? (
+              <p className="text-sm text-slate-500 text-center py-6">No documents available.</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {importantDocs.map((doc: any) => {
+                  const mainCat = doc.category?.main_category || "OFFICIAL";
+                  const subCat = doc.category?.name;
+                  const catHref = subCat
+                    ? `/documents?category=${mainCat}&subcategory=${subCat}`
+                    : `/documents?category=${mainCat}`;
+                  const updatedAt = doc.updated_at
+                    ? new Date(doc.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                    : null;
+                  return (
+                    <Link
+                      key={doc.id}
+                      href={`/documents/${doc.id}`}
+                      className="p-5 rounded-lg bg-surface border border-hairline hover:border-accent-purple/30 transition-colors group flex flex-col gap-1"
+                    >
+                      <h4 className="font-semibold text-ink group-hover:text-accent-purple transition-colors line-clamp-1">
+                        {doc.title}
+                      </h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        {subCat && (
+                          <span
+                            onClick={(e) => { e.preventDefault(); window.location.href = catHref; }}
+                            className="text-xs font-medium text-accent-purple bg-accent-purple/10 px-2 py-0.5 rounded-full hover:bg-accent-purple/20 transition-colors"
+                          >
+                            {subCat.replace(/_/g, " ").replace(/\bUNCATEGORIZED \w+/i, "General")}
+                          </span>
+                        )}
+                        {updatedAt && (
+                          <p className="text-xs text-slate-400">Updated {updatedAt}</p>
+                        )}
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
-            </div>
+            )}
           </section>
 
         </div>
