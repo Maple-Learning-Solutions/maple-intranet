@@ -37,7 +37,16 @@ export default withAuth(
         const { pathname } = req.nextUrl;
         
         // Public routes
-        if (pathname === "/" || pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up") || pathname.startsWith("/api/v1/auth")) {
+        if (
+          pathname === "/" ||
+          pathname.startsWith("/sign-in") ||
+          pathname.startsWith("/sign-up") ||
+          pathname.startsWith("/verify-email") ||
+          pathname.startsWith("/forgot-password") ||
+          pathname.startsWith("/reset-password") ||
+          pathname.startsWith("/api/auth") ||
+          pathname.startsWith("/api/v1/auth")
+        ) {
           return true;
         }
         
